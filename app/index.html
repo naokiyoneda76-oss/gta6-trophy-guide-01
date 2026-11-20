@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080d20">
+  <title>Leonida Trophy Atlas — GTA VI Trophy Guide</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="hero">
+      <div class="topline"><span class="signal"></span> FIELD GUIDE <span class="topline-rule"></span> LEONIDA · PS5</div>
+      <h1>Leonida <span>Trophy Atlas</span></h1>
+      <p class="dek">A considered route through every trophy, from the first chapter to the platinum.</p>
+      <p class="facts">55 trophies · 1 platinum · 2 gold · 6 silver · 46 bronze · about 200 hours · difficulty 4/10<br class="mobile-break"> <span>Sources: PlayStation, PowerPyx, EGamers, KeenGamer</span></p>
+      <section class="progress-panel" aria-label="Trophy progress">
+        <div class="progress-copy"><div><span class="eyebrow">YOUR RUN</span><strong id="progress-count">0 <small>/ 55 earned</small></strong></div><strong id="progress-percent">0%</strong></div>
+        <div class="progress-track" role="progressbar" aria-label="Trophies earned" aria-valuemin="0" aria-valuemax="55" aria-valuenow="0"><span id="progress-fill"></span></div>
+      </section>
+    </header>
+
+    <nav class="tabs" aria-label="Guide sections">
+      <button class="tab active" data-view="checklist">Checklist <span>55</span></button>
+      <button class="tab" data-view="roadmap">Roadmap</button>
+      <button class="tab" data-view="missable">Missable <span class="tab-alert">1</span></button>
+      <button class="tab" data-view="sources">Sources</button>
+    </nav>
+
+    <main>
+      <section id="view-checklist" class="view active" aria-labelledby="checklist-heading">
+        <div class="section-heading"><div><span class="eyebrow">TRACK YOUR PROGRESS</span><h2 id="checklist-heading">The checklist</h2></div><p id="result-count">55 trophies</p></div>
+        <div class="toolbar">
+          <label class="search-wrap"><span class="sr-only">Search trophies</span><span class="search-icon" aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Search trophies or guides…" autocomplete="off"></label>
+          <label class="select-wrap"><span class="sr-only">Filter by grade</span><select id="grade-filter"><option value="all">All grades</option><option value="platinum">Platinum</option><option value="gold">Gold</option><option value="silver">Silver</option><option value="bronze">Bronze</option></select></label>
+        </div>
+        <div class="filters" role="group" aria-label="Filter trophies by category">
+          <button class="chip selected" data-filter="all">All</button><button class="chip" data-filter="story">Story</button><button class="chip" data-filter="missable">Missable</button><button class="chip" data-filter="collectibles">Collectibles</button><button class="chip" data-filter="activities">Activities</button><button class="chip" data-filter="online">Online</button>
+        </div>
+        <div class="tools-row">
+          <label class="spoiler-toggle"><input id="spoiler-toggle" type="checkbox"><span class="switch"></span><span>Hide story spoilers</span></label>
+          <div class="data-actions"><button id="export-button" class="text-button">Export progress</button><label class="text-button import-button">Import progress<input id="import-file" type="file" accept="application/json,.json"></label><button id="reset-button" class="text-button danger-text">Reset</button></div>
+        </div>
+        <div id="message" class="message" role="status" hidden></div>
+        <div id="empty-state" class="empty-state" hidden></div>
+        <div id="trophy-list" class="trophy-list" aria-live="polite"></div>
+      </section>
+
+      <section id="view-roadmap" class="view" aria-labelledby="roadmap-heading"><div class="section-heading"><div><span class="eyebrow">THREE PHASES · ROUGHLY 200 HOURS</span><h2 id="roadmap-heading">Road to platinum</h2></div></div><div id="roadmap-content"></div><div class="platinum-facts" id="platinum-facts"></div></section>
+      <section id="view-missable" class="view" aria-labelledby="missable-heading"><div class="section-heading"><div><span class="eyebrow">ONE TIME-SENSITIVE TROPHY</span><h2 id="missable-heading">Protect your run</h2></div></div><p class="intro-note">PowerPyx identifies exactly one potentially missable trophy in this list. Handle its Chapter 1 requirement before advancing; the game has no mission replay.</p><div id="missable-card"></div><div class="caution-panel"><span class="eyebrow">SAVE THESE NOTES</span><ul><li>Keep manual saves at each chapter start: story missions cannot be replayed.</li><li>Complete Stranger and Freaks windows when they become available, before pushing into the finale.</li><li>Do not let your Criminal Profile reach the permanent Irredeemable state.</li></ul></div></section>
+      <section id="view-sources" class="view" aria-labelledby="sources-heading"><div class="section-heading"><div><span class="eyebrow">RESEARCH NOTES</span><h2 id="sources-heading">Sources &amp; method</h2></div></div><div id="sources-list" class="sources-list"></div><p class="source-method">Official names and descriptions are quoted from PlayStation’s trophy list. All guide text in this tracker is original, written to turn the cited roadmap and reference material into practical steps.</p></section>
+    </main>
+    <footer><span>LEONIDA TROPHY ATLAS</span><span>Progress stays in this browser.</span></footer>
+  </div>
+</body>
+</html>
