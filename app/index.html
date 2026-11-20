@@ -1,4 +1,55 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#080d1c"><title>Leonida Legend | GTA VI Trophy Guide</title><link rel="stylesheet" href="style.css"><script defer src="app.js"></script></head><body>
-<header class="hero"><div class="eyebrow">LEONIDA FIELD GUIDE <span>PLAYSTATION 5</span></div><h1>Grand Theft Auto <em>VI</em></h1><p class="summary">55 trophies · 1 platinum · 2 gold · 6 silver · 46 bronze · about 200 hours · difficulty 4/10 · PowerPyx, EGamers &amp; KeenGamer</p><div class="progress"><div class="progress-copy"><strong id="earned">0 / 55 earned</strong><span id="percent">0%</span></div><div class="track"><i id="bar"></i></div></div></header>
-<main><nav class="tabs" aria-label="Guide sections"><button class="tab active" data-view="checklist">Checklist</button><button class="tab" data-view="roadmap">Roadmap</button><button class="tab" data-view="missable">Missable</button><button class="tab" data-view="sources">Sources</button></nav><section id="panel" aria-live="polite"><p class="loading">Loading trophy data…</p></section></main><footer>Independent fan-made guide · No game assets · Progress stays in this browser</footer></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080d1d">
+  <title>Vice City Trophy Bureau — GTA VI Trophy Guide</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="hero">
+      <div class="hero-top"><a class="wordmark" href="#checklist" aria-label="Vice City Trophy Bureau home"><span class="mark">VC</span><span>VICE CITY<br><b>TROPHY BUREAU</b></span></a><span class="edition">FIELD GUIDE · PS5</span></div>
+      <div class="hero-copy"><p class="eyebrow">LEONIDA, FLORIDA · PLATINUM ROUTE</p><h1>Every trophy has<br><span>a way through.</span></h1><p class="lede">A practical, source-cited route to the Grand Theft Auto VI platinum.</p></div>
+      <div class="hero-facts"><span>55 trophies</span><span>1 platinum · 2 gold · 6 silver · 46 bronze</span><span>About 200 hours</span><span>Difficulty 4/10</span><span>Sources: PlayStation, PowerPyx, EGamers, KeenGamer</span></div>
+    </header>
+
+    <main>
+      <section class="progress-panel" aria-label="Trophy progress">
+        <div class="progress-copy"><div><p class="eyebrow">YOUR RUN</p><strong id="earned-count">0 <span>/ 55 earned</span></strong></div><span id="progress-percent">0%</span></div>
+        <div class="progress-track" role="progressbar" aria-label="Trophies earned" aria-valuemin="0" aria-valuemax="55" aria-valuenow="0"><span id="progress-fill"></span></div>
+      </section>
+
+      <nav class="tabs" aria-label="Guide sections" role="tablist">
+        <button class="tab active" id="tab-checklist" role="tab" aria-selected="true" aria-controls="view-checklist" data-view="checklist">Checklist <span>55</span></button>
+        <button class="tab" id="tab-roadmap" role="tab" aria-selected="false" aria-controls="view-roadmap" data-view="roadmap">Roadmap</button>
+        <button class="tab" id="tab-missable" role="tab" aria-selected="false" aria-controls="view-missable" data-view="missable">Missable <span>1</span></button>
+        <button class="tab" id="tab-sources" role="tab" aria-selected="false" aria-controls="view-sources" data-view="sources">Sources</button>
+      </nav>
+
+      <section id="view-checklist" class="view active" role="tabpanel" aria-labelledby="tab-checklist">
+        <div class="section-heading"><div><p class="eyebrow">THE FULL LIST</p><h2>Trophy checklist</h2><p>Track the route, open any card for its guide, and keep spoiler details tucked away.</p></div></div>
+        <div class="toolbar">
+          <label class="search-wrap"><span class="sr-only">Search trophies</span><span class="search-icon" aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Search trophies or guides…" autocomplete="off"></label>
+          <label class="select-wrap"><span class="sr-only">Filter by grade</span><select id="grade-filter"><option value="all">All grades</option><option value="platinum">Platinum</option><option value="gold">Gold</option><option value="silver">Silver</option><option value="bronze">Bronze</option></select></label>
+        </div>
+        <div class="filter-row" role="group" aria-label="Filter trophy category">
+          <button class="filter-chip selected" data-filter="all">All <span>55</span></button><button class="filter-chip" data-filter="story">Story</button><button class="filter-chip" data-filter="missable">Missable</button><button class="filter-chip" data-filter="collectibles">Collectibles</button><button class="filter-chip" data-filter="activities">Activities</button><button class="filter-chip" data-filter="online">Online</button>
+        </div>
+        <div class="list-options"><label class="spoiler-toggle"><input id="spoiler-toggle" type="checkbox"><span class="switch" aria-hidden="true"></span><span>Hide story spoilers</span></label><div class="progress-actions"><button id="export-progress" class="button button-quiet">Export progress</button><label class="button button-quiet import-button">Import progress<input id="import-progress" type="file" accept="application/json,.json"></label><button id="reset-progress" class="button button-quiet">Reset</button></div></div>
+        <p id="list-status" class="list-status" aria-live="polite"></p>
+        <div id="online-empty" class="empty-state" hidden><span class="empty-icon">∅</span><h3>No online trophies</h3><p>The official list has no online trophies: 0 online, all 55 offline.</p></div>
+        <div id="trophy-list" class="trophy-list" aria-live="polite"><p class="loading">Loading the trophy list…</p></div>
+      </section>
+
+      <section id="view-roadmap" class="view" role="tabpanel" aria-labelledby="tab-roadmap" hidden><div class="section-heading"><div><p class="eyebrow">THREE-PHASE ROUTE</p><h2>Roadmap to platinum</h2><p>Keep the story clean, combine checklist work, then finish with a careful cleanup pass.</p></div></div><div id="roadmap-content"></div></section>
+      <section id="view-missable" class="view" role="tabpanel" aria-labelledby="tab-missable" hidden><div class="section-heading"><div><p class="eyebrow">ONE WINDOW TO WATCH</p><h2>Missable warning</h2><p>PowerPyx identifies exactly one potentially missable trophy. Review its Chapter 1 timing before advancing.</p></div></div><div id="missable-content"></div><div class="caution-list"><h3>Keep these cautions in view</h3><ul><li>Make manual saves at the start of each chapter; missions cannot be replayed.</li><li>Complete Stranger and Freaks strands promptly when their windows open.</li><li>Avoid pushing the Criminal Profile into the permanent Irredeemable state.</li></ul></div></section>
+      <section id="view-sources" class="view" role="tabpanel" aria-labelledby="tab-sources" hidden><div class="section-heading"><div><p class="eyebrow">RESEARCH NOTES</p><h2>Sources &amp; method</h2><p>Follow the cited references alongside this original guide.</p></div></div><div id="sources-content" class="sources-grid"></div><p class="editorial-note">Official trophy names and descriptions are quoted from PlayStation’s list. All guide text on this site is original.</p></section>
+      <noscript><p class="error-message">JavaScript is required to load the local trophy file and save your progress.</p></noscript>
+    </main>
+    <footer><span>VICE CITY TROPHY BUREAU</span><span>Independent fan guide · Progress stays in this browser</span></footer>
+  </div>
+</body>
+</html>

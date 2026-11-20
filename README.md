@@ -4,7 +4,7 @@
 [![rank](https://make.fun/badge/gta6-trophy-guide-01/naokiyoneda76-oss/gta6-trophy-guide-01/rank.svg)](https://make.fun/bounty/gta6-trophy-guide-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
 [![reward](https://make.fun/badge/gta6-trophy-guide-01/naokiyoneda76-oss/gta6-trophy-guide-01/reward.svg)](https://make.fun/bounty/gta6-trophy-guide-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
 
-An offline Grand Theft Auto VI trophy guide and tracker for all 55 PlayStation trophies, with original cited guidance from PowerPyx, EGamers and KeenGamer, a three-step platinum roadmap, a clear Chapter 1 missable warning, localStorage progress with export/import, and a spoiler-hiding mode.
+An original, offline Grand Theft Auto VI trophy guide and tracker for all 55 PlayStation trophies. Follow a three-step platinum roadmap, consult cited trophy guides and a Chapter 1 missable warning, and track progress in localStorage with JSON export and import. Spoiler mode hides unearned story trophy names and descriptions; progress stays in your browser.
 
 ## Run it
 
