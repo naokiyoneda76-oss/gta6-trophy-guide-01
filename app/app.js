@@ -108,8 +108,9 @@ function matchesFilter(trophy) {
 }
 
 function matchesSearch(trophy) {
-  const text = [trophy.name, trophy.description, trophy.guide, trophy.kind, ...(trophy.tags || [])].join(' ').toLowerCase();
-  return text.includes(searchTerm);
+  const hiddenStory = hideSpoilers && trophy.kind === 'story' && !earnedIds.has(trophy.id);
+  const fields = hiddenStory ? [trophy.grade, trophy.kind, trophy.stage] : [trophy.name, trophy.description, trophy.guide, trophy.kind, ...(trophy.tags || [])];
+  return fields.join(' ').toLowerCase().includes(searchTerm);
 }
 
 function renderChecklist() {
@@ -136,7 +137,7 @@ function renderRoadmap() {
     : '<p class="next-up-complete">Every trophy is earned. The platinum is yours.</p>';
   const steps = trophyData.roadmap.map(step => {
     const stepTrophies = step.trophyIds.map(id => trophyData.trophies.find(trophy => trophy.id === id)).filter(Boolean);
-    const names = stepTrophies.map(trophy => trophy.name);
+    const names = stepTrophies.map(getTrophyName);
     const earnedCount = step.trophyIds.filter(id => earnedIds.has(id)).length;
     const focusBullets = step.step === 1
       ? ['Play Chapters 1–5 and their named missions', 'Meditate during Chapter 1 before leaving', 'Keep a manual save at each chapter start']
