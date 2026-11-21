@@ -12,3 +12,5 @@
 .step-progress{display:inline-flex;align-items:center;margin:0 0 4px!important;padding:4px 9px;border:1px solid #246b6a;border-radius:999px;background:#123032;color:#a4eee4!important;font-size:10px!important;font-weight:750}
 @media(max-width:760px){.toolbar{grid-template-columns:1fr 1fr}.toolbar .search-wrap{grid-column:1/-1}}
 @media(max-width:470px){.toolbar{grid-template-columns:1fr}.toolbar .search-wrap{grid-column:auto}#next-up{padding:14px}.next-up-list li{flex-wrap:wrap}.next-up-name{min-width:45%}}
+
+.grade-progress{margin:8px 0 0;color:var(--muted);font-size:10px;letter-spacing:.015em}.roadmap-route-shape{display:inline-flex;margin:0 0 12px;padding:7px 11px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:#cbd4e4;font-size:11px;font-weight:700;letter-spacing:.02em}.focus-heading{margin:12px 0 5px!important;color:var(--teal)!important}.focus-list{list-style:none;padding:0;margin:0 0 12px;display:grid;gap:4px}.focus-list li{position:relative;padding-left:12px;color:#d2d9e7;font-size:10px;line-height:1.4}.focus-list li:before{content:'•';position:absolute;left:0;color:var(--teal)}

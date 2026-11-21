@@ -48,6 +48,14 @@ function updateProgressSummary() {
   const progressBar = document.querySelector('.progress-track');
   progressBar.setAttribute('aria-valuenow', String(count));
   progressBar.setAttribute('aria-valuemax', String(total));
+  if (trophyData) {
+    const gradeLabels = { platinum: 'Platinum', gold: 'Gold', silver: 'Silver', bronze: 'Bronze' };
+    document.querySelector('#grade-progress').textContent = ['platinum', 'gold', 'silver', 'bronze'].map(grade => {
+      const trophies = trophyData.trophies.filter(trophy => trophy.grade === grade);
+      const earned = trophies.filter(trophy => earnedIds.has(trophy.id)).length;
+      return `${gradeLabels[grade]} ${earned}/${trophies.length}`;
+    }).join(' · ');
+  }
 }
 
 function getTrophyName(trophy) {
@@ -127,11 +135,18 @@ function renderRoadmap() {
     ? `<ol class="next-up-list">${nextTrophies.map(trophy => `<li><span class="grade-badge grade-${escapeHtml(trophy.grade)}">${escapeHtml(trophy.grade)}</span><span class="next-up-name">${escapeHtml(getTrophyName(trophy))}</span><span class="stage-tag">Stage ${trophy.stage}</span></li>`).join('')}</ol>`
     : '<p class="next-up-complete">Every trophy is earned. The platinum is yours.</p>';
   const steps = trophyData.roadmap.map(step => {
-    const names = step.trophyIds.map(id => trophyData.trophies.find(trophy => trophy.id === id)?.name).filter(Boolean);
+    const stepTrophies = step.trophyIds.map(id => trophyData.trophies.find(trophy => trophy.id === id)).filter(Boolean);
+    const names = stepTrophies.map(trophy => trophy.name);
     const earnedCount = step.trophyIds.filter(id => earnedIds.has(id)).length;
-    return `<article class="roadmap-card"><div class="step-label"><span>STEP ${step.step}</span><span class="step-hours">${escapeHtml(step.hours)} hours</span></div><h3>${escapeHtml(step.title)}</h3><p>${escapeHtml(step.summary)}</p><p class="step-progress">${earnedCount} of ${step.trophyIds.length} earned</p><h4>Trophies in this step · ${names.length}</h4><ul class="trophy-name-list">${names.map(name => `<li>${escapeHtml(name)}</li>`).join('')}</ul></article>`;
+    const focusBullets = step.step === 1
+      ? ['Play Chapters 1–5 and their named missions', 'Meditate during Chapter 1 before leaving', 'Keep a manual save at each chapter start']
+      : step.step === 2
+        ? ['Clear the 100 percent checklist after the story', 'Work activities and collectibles together', 'Complete 70 of the 80 challenges']
+        : ['Finish finale missions and remaining Strangers and Freaks', 'Complete A Long Road after checklist work', 'Earn the other trophies for Vice Got a Price!'];
+    return `<article class="roadmap-card"><div class="step-label"><span>STEP ${step.step}</span><span class="step-hours">${escapeHtml(step.hours)} hours</span></div><h3>${escapeHtml(step.title)}</h3><p>${escapeHtml(step.summary)}</p><h4 class="focus-heading">Focus now</h4><ul class="focus-list">${focusBullets.map(bullet => `<li>${escapeHtml(bullet)}</li>`).join('')}</ul><p class="step-progress">${earnedCount} of ${step.trophyIds.length} earned</p><h4>Trophies in this step · ${names.length}</h4><ul class="trophy-name-list">${names.map(name => `<li>${escapeHtml(name)}</li>`).join('')}</ul></article>`;
   }).join('');
-  document.querySelector('#roadmap-content').innerHTML = `<section id="next-up" aria-live="polite"><h3>Next up</h3>${nextUp}</section><div class="roadmap-grid">${steps}</div><div class="roadmap-lower"><article class="facts-card"><h3>Platinum facts</h3><p><strong>Difficulty:</strong> 4/10</p><p><strong>Estimated time:</strong> about 200 hours</p><p><strong>Playthroughs:</strong> one, with free-roam cleanup</p><p><strong>Cheats:</strong> avoid them; they disable trophies and saving</p><p><strong>Mission replay:</strong> unavailable, so keep chapter-start saves</p></article><article class="facts-card"><h3>Route notes</h3><p>Complete Chapter 1 house meditation before leaving that chapter. Preserve manual saves and take Stranger and Freaks opportunities when they appear.</p><p>Use the in-game 100% checklist; earlier progress counts, and 70 of 80 challenges suffice.</p></article></div>`;
+  const routeShape = trophyData.roadmap.map(step => `${step.trophyIds.length} trophies`).join(' → ');
+  document.querySelector('#roadmap-content').innerHTML = `<section id="next-up" aria-live="polite"><h3>Next up</h3>${nextUp}</section><p class="roadmap-route-shape">${escapeHtml(routeShape)}</p><div class="roadmap-grid">${steps}</div><div class="roadmap-lower"><article class="facts-card"><h3>Platinum facts</h3><p><strong>Difficulty:</strong> 4/10</p><p><strong>Estimated time:</strong> about 200 hours</p><p><strong>Playthroughs:</strong> one, with free-roam cleanup</p><p><strong>Cheats:</strong> avoid them; they disable trophies and saving</p><p><strong>Mission replay:</strong> unavailable, so keep chapter-start saves</p></article><article class="facts-card"><h3>Route notes</h3><p>Complete Chapter 1 house meditation before leaving that chapter. Preserve manual saves and take Stranger and Freaks opportunities when they appear.</p><p>Use the in-game 100% checklist; earlier progress counts, and 70 of 80 challenges suffice.</p></article></div>`;
 }
 
 function renderMissable() {
