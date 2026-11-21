@@ -14,6 +14,7 @@ let earnedIds = new Set();
 let expandedIds = new Set([1]);
 let activeFilter = 'all';
 let activeGrade = 'all';
+let activeStatus = 'all';
 let searchTerm = '';
 let hideSpoilers = false;
 
@@ -69,6 +70,7 @@ function renderSourceLinks(sources) {
 function renderTrophyCard(trophy) {
   const expanded = expandedIds.has(trophy.id);
   const earned = earnedIds.has(trophy.id);
+  const kindTag = `<span class="kind-tag">${escapeHtml(trophy.kind)}</span>`;
   const tags = (trophy.tags || []).map(tag => `<span class="kind-tag">${escapeHtml(tag)}</span>`).join('');
   const target = trophy.target != null ? `<span class="target-chip">${escapeHtml(trophy.target)} ${escapeHtml(trophy.targetLabel || '')}</span>` : '';
   const caution = trophy.caution ? `<p class="caution">${escapeHtml(trophy.caution)}</p>` : '';
@@ -80,7 +82,7 @@ function renderTrophyCard(trophy) {
         <span class="card-title-line"><span class="card-title">${escapeHtml(getTrophyName(trophy))}</span>${trophy.missable ? '<span class="badge-missable">MISSABLE</span>' : ''}${target}</span>
         <span class="card-desc">${escapeHtml(getTrophyDescription(trophy))}</span>
       </button>
-      ${tags}<span class="stage-tag">Stage ${trophy.stage}</span><span class="card-chevron" aria-hidden="true">⌄</span>
+      ${kindTag}${tags}<span class="stage-tag">Stage ${trophy.stage}</span><span class="card-chevron" aria-hidden="true">⌄</span>
     </div>
     <div class="card-details" id="details-${trophy.id}" ${expanded ? '' : 'hidden'}>
       <p>${escapeHtml(trophy.guide)}</p>${caution}
@@ -114,17 +116,22 @@ function renderChecklist() {
   }
   list.hidden = false;
   onlineEmpty.hidden = true;
-  const matches = trophyData.trophies.filter(trophy => matchesFilter(trophy) && (activeGrade === 'all' || trophy.grade === activeGrade) && matchesSearch(trophy));
+  const matches = trophyData.trophies.filter(trophy => matchesFilter(trophy) && (activeGrade === 'all' || trophy.grade === activeGrade) && (activeStatus === 'all' || (activeStatus === 'earned') === earnedIds.has(trophy.id)) && matchesSearch(trophy));
   list.innerHTML = matches.length ? matches.map(renderTrophyCard).join('') : '<div class="empty-state"><span class="empty-icon">⌕</span><h3>No trophies found</h3><p>Try another search or filter.</p></div>';
   status.textContent = `${matches.length} ${matches.length === 1 ? 'trophy' : 'trophies'} shown`;
 }
 
 function renderRoadmap() {
+  const nextTrophies = trophyData.trophies.filter(trophy => !earnedIds.has(trophy.id)).sort((a, b) => a.stage - b.stage || a.id - b.id).slice(0, 3);
+  const nextUp = nextTrophies.length
+    ? `<ol class="next-up-list">${nextTrophies.map(trophy => `<li><span class="grade-badge grade-${escapeHtml(trophy.grade)}">${escapeHtml(trophy.grade)}</span><span class="next-up-name">${escapeHtml(getTrophyName(trophy))}</span><span class="stage-tag">Stage ${trophy.stage}</span></li>`).join('')}</ol>`
+    : '<p class="next-up-complete">Every trophy is earned. The platinum is yours.</p>';
   const steps = trophyData.roadmap.map(step => {
     const names = step.trophyIds.map(id => trophyData.trophies.find(trophy => trophy.id === id)?.name).filter(Boolean);
-    return `<article class="roadmap-card"><div class="step-label"><span>STEP ${step.step}</span><span class="step-hours">${escapeHtml(step.hours)} hours</span></div><h3>${escapeHtml(step.title)}</h3><p>${escapeHtml(step.summary)}</p><h4>Trophies in this step · ${names.length}</h4><ul class="trophy-name-list">${names.map(name => `<li>${escapeHtml(name)}</li>`).join('')}</ul></article>`;
+    const earnedCount = step.trophyIds.filter(id => earnedIds.has(id)).length;
+    return `<article class="roadmap-card"><div class="step-label"><span>STEP ${step.step}</span><span class="step-hours">${escapeHtml(step.hours)} hours</span></div><h3>${escapeHtml(step.title)}</h3><p>${escapeHtml(step.summary)}</p><p class="step-progress">${earnedCount} of ${step.trophyIds.length} earned</p><h4>Trophies in this step · ${names.length}</h4><ul class="trophy-name-list">${names.map(name => `<li>${escapeHtml(name)}</li>`).join('')}</ul></article>`;
   }).join('');
-  document.querySelector('#roadmap-content').innerHTML = `<div class="roadmap-grid">${steps}</div><div class="roadmap-lower"><article class="facts-card"><h3>Platinum facts</h3><p><strong>Difficulty:</strong> 4/10</p><p><strong>Estimated time:</strong> about 200 hours</p><p><strong>Playthroughs:</strong> one, with free-roam cleanup</p><p><strong>Cheats:</strong> avoid them; they disable trophies and saving</p><p><strong>Mission replay:</strong> unavailable, so keep chapter-start saves</p></article><article class="facts-card"><h3>Route notes</h3><p>Complete Chapter 1 house meditation before leaving that chapter. Preserve manual saves and take Stranger and Freaks opportunities when they appear.</p><p>Use the in-game 100% checklist; earlier progress counts, and 70 of 80 challenges suffice.</p></article></div>`;
+  document.querySelector('#roadmap-content').innerHTML = `<section id="next-up" aria-live="polite"><h3>Next up</h3>${nextUp}</section><div class="roadmap-grid">${steps}</div><div class="roadmap-lower"><article class="facts-card"><h3>Platinum facts</h3><p><strong>Difficulty:</strong> 4/10</p><p><strong>Estimated time:</strong> about 200 hours</p><p><strong>Playthroughs:</strong> one, with free-roam cleanup</p><p><strong>Cheats:</strong> avoid them; they disable trophies and saving</p><p><strong>Mission replay:</strong> unavailable, so keep chapter-start saves</p></article><article class="facts-card"><h3>Route notes</h3><p>Complete Chapter 1 house meditation before leaving that chapter. Preserve manual saves and take Stranger and Freaks opportunities when they appear.</p><p>Use the in-game 100% checklist; earlier progress counts, and 70 of 80 challenges suffice.</p></article></div>`;
 }
 
 function renderMissable() {
@@ -169,6 +176,10 @@ function bindControls() {
     activeGrade = event.target.value;
     renderChecklist();
   });
+  document.querySelector('#status-filter').addEventListener('change', event => {
+    activeStatus = event.target.value;
+    renderChecklist();
+  });
   document.querySelectorAll('.filter-chip').forEach(chip => chip.addEventListener('click', () => {
     activeFilter = chip.dataset.filter;
     document.querySelectorAll('.filter-chip').forEach(button => button.classList.toggle('selected', button === chip));
@@ -186,6 +197,7 @@ function bindControls() {
     else earnedIds.delete(id);
     saveProgress();
     renderChecklist();
+    renderRoadmap();
   });
   document.querySelector('#trophy-list').addEventListener('click', event => {
     const button = event.target.closest('[data-expand]');
@@ -221,6 +233,7 @@ async function importProgress(event) {
     earnedIds = new Set(ids.map(Number).filter(id => validIds.has(id)));
     saveProgress();
     renderChecklist();
+    renderRoadmap();
     document.querySelector('#list-status').textContent = `Imported ${earnedIds.size} earned trophies.`;
   } catch (error) {
     document.querySelector('#list-status').textContent = `Import failed: ${error.message}`;
@@ -234,6 +247,7 @@ function resetProgress() {
   earnedIds.clear();
   saveProgress();
   renderChecklist();
+  renderRoadmap();
   document.querySelector('#list-status').textContent = 'Progress reset.';
 }
 
@@ -268,6 +282,7 @@ function handleSharedStateUpdate(event) {
       const validIds = new Set(trophyData.trophies.map(trophy => trophy.id));
       earnedIds = new Set(storedIds.map(Number).filter(id => validIds.has(id)));
       renderChecklist();
+      renderRoadmap();
       updateProgressSummary();
     } catch (error) {
       // Ignore malformed storage written by another page; the current checklist remains usable.
@@ -282,20 +297,3 @@ function handleSharedStateUpdate(event) {
 
 window.addEventListener('storage', handleSharedStateUpdate);
 
-// Add the trophy's primary kind beside its category tags for a consistent card label.
-function addKindTagsToCards() {
-  document.querySelectorAll('.trophy-card').forEach(card => {
-    if (card.querySelector('[data-primary-kind]')) return;
-    const trophy = trophyData?.trophies.find(item => item.id === Number(card.dataset.id));
-    const stageTag = card.querySelector('.stage-tag');
-    if (!trophy || !stageTag) return;
-    const kindTag = document.createElement('span');
-    kindTag.className = 'kind-tag';
-    kindTag.dataset.primaryKind = 'true';
-    kindTag.textContent = trophy.kind;
-    stageTag.before(kindTag);
-  });
-}
-
-const kindTagObserver = new MutationObserver(addKindTagsToCards);
-kindTagObserver.observe(document.querySelector('#trophy-list'), { childList: true });
